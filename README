@@ -1,8 +1,10 @@
+OVERVIEW:
+
 A codeigniter library to help make using multi curl functionality easier. Multi curl alows you to make multiple curl requests simultaneously, without having to process each curl request one after another. This library is great if you're having to make multiple web API calls to one or more APIs.
 
-Move /application/libraries/mcurl.php to your libraries folder. To view the examples in your application, move /application/controllers/example.php to your controllers folder and point your app to http://your_app/index.php/example . 
+HOW TO USE IT:
 
-
+Move mcurl.php to your libraries folder. To view the examples in your application, move example.php to your controllers folder and point your app to http://your_app/index.php/example 
 
 $this->load->library('mcurl');
 
