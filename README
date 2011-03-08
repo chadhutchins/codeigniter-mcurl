@@ -14,8 +14,10 @@ $this->mcurl->add_call("post","http://twitter.com");
 $this->mcurl->add_call("get","http://google.com",array("q"=>"codeigniter"));
 $this->mcurl->add_call("get","https://facebook.com",array(),array(CURLOPT_SSL_VERIFYPEER => FALSE));
 
+// execute the calls
 $responses = $this->mcurl->execute();
 
+// show some debugging
 $this->mcurl->debug();
 
 See the Example controller in the code for more details.
