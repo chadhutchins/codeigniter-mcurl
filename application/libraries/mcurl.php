@@ -64,6 +64,14 @@ class Mcurl {
     // method to add curl requests to the multi request queue
     function add_call($method, $url, $params = array(), $options = array())
     {
+        // check to see if the multi handle has been closed
+        // init the multi handle again
+        if(get_resource_type($this->curl_parent) == 'Unknown')
+        {
+            $this->calls = array();
+            $this->curl_parent = curl_multi_init();
+        }
+
         $call_count = count($this->calls);
 
         $this->calls [$call_count]= array(
