@@ -66,7 +66,8 @@ class Mcurl {
     {
         // check to see if the multi handle has been closed
         // init the multi handle again
-        if(get_resource_type($this->curl_parent) == 'Unknown')
+        $resource_type = get_resource_type($this->curl_parent);
+        if(!$resource_type || $resource_type == 'Unknown')
         {
             $this->calls = array();
             $this->curl_parent = curl_multi_init();
