@@ -17,12 +17,12 @@ class Example extends CI_Controller {
         /*
         ** Example 1: Adding a Basic GET Request
         */
-        $this->mcurl->add_call("get","http://chadhutchins.com");
+        $this->mcurl->add_call("call1","get","http://chadhutchins.com");
 
         /*
         ** Example 2: Adding a Basic POST Request
         */
-        $this->mcurl->add_call("post","http://twitter.com/chadhutchins");
+        $this->mcurl->add_call("call2","post","http://twitter.com/chadhutchins");
 
         /*
         ** Example 3: Adding a more complex Request with Variables and Curl Options
@@ -36,12 +36,12 @@ class Example extends CI_Controller {
             CURLOPT_SSL_VERIFYPEER => FALSE
         );
 
-        $this->mcurl->add_call("get","https://ajax.googleapis.com/ajax/services/search/blogs",$vars,$options);
+        $this->mcurl->add_call("call3","get","https://ajax.googleapis.com/ajax/services/search/blogs",$vars,$options);
 
         /*
         ** Example 4: Error Handling
         */
-        $this->mcurl->add_call("post","httpasdf://twitter.com/chadhutchins");
+        $this->mcurl->add_call("call4","post","httpasdf://twitter.com/chadhutchins");
 
         /*
         ** Execute the requests with Multiple Curl
@@ -52,7 +52,6 @@ class Example extends CI_Controller {
         ** Display the results with debug method
         */
         $this->mcurl->debug();
-        
     }
     
 }

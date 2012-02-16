@@ -62,8 +62,13 @@ class Mcurl {
     }
 
     // method to add curl requests to the multi request queue
-    function add_call($method, $url, $params = array(), $options = array())
+    function add_call($key=null, $method, $url, $params = array(), $options = array())
     {
+		if (is_null($key))
+		{
+			$key = count($this->calls);
+		}
+		
         // check to see if the multi handle has been closed
         // init the multi handle again
         $resource_type = get_resource_type($this->curl_parent);
@@ -73,9 +78,7 @@ class Mcurl {
             $this->curl_parent = curl_multi_init();
         }
 
-        $call_count = count($this->calls);
-
-        $this->calls [$call_count]= array(
+        $this->calls [$key]= array(
             "method" => $method,
             "url" => $url,
             "params" => $params,
@@ -85,7 +88,7 @@ class Mcurl {
             "error" => null
         );
 
-        $this->calls[$call_count]["curl"] = curl_init();
+        $this->calls[$key]["curl"] = curl_init();
 
         // If its an array (instead of a query string) then format it correctly
         if (is_array($params))
@@ -100,13 +103,13 @@ class Mcurl {
         switch ($method)
         {	        
             case "POST":
-                curl_setopt($this->calls[$call_count]["curl"], CURLOPT_URL, $url);
-                curl_setopt($this->calls[$call_count]["curl"], CURLOPT_POST, TRUE);
-                curl_setopt($this->calls[$call_count]["curl"], CURLOPT_POSTFIELDS, $params);
+                curl_setopt($this->calls[$key]["curl"], CURLOPT_URL, $url);
+                curl_setopt($this->calls[$key]["curl"], CURLOPT_POST, TRUE);
+                curl_setopt($this->calls[$key]["curl"], CURLOPT_POSTFIELDS, $params);
                 break;
 
             case "GET":
-                curl_setopt($this->calls[$call_count]["curl"], CURLOPT_URL, $url."?".$params);
+                curl_setopt($this->calls[$key]["curl"], CURLOPT_URL, $url."?".$params);
                 break;
 
             default:
@@ -114,12 +117,12 @@ class Mcurl {
                 break;
         }
 
-        curl_setopt($this->calls[$call_count]["curl"], CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($this->calls[$call_count]["curl"], CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($this->calls[$key]["curl"], CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($this->calls[$key]["curl"], CURLOPT_FOLLOWLOCATION, TRUE);
 
-        curl_setopt_array($this->calls[$call_count]["curl"], $options);
+        curl_setopt_array($this->calls[$key]["curl"], $options);
 
-        curl_multi_add_handle($this->curl_parent,$this->calls[$call_count]["curl"]);        
+        curl_multi_add_handle($this->curl_parent,$this->calls[$key]["curl"]);        
     }
 
     // run the calls in the curl requests in $this->calls
