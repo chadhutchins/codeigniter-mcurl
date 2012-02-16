@@ -12,16 +12,29 @@ Move mcurl.php to your libraries folder. To view the examples in your applicatio
 	
 	$this->load->library('mcurl');
 	
-	// add_call( METHOD, URL, array of PARAMS, array of CURL_OPTS )
-	$this->mcurl->add_call("get","http://google.com");
-	$this->mcurl->add_call("post","http://twitter.com");
-	$this->mcurl->add_call("get","http://google.com",array("q"=>"codeigniter"));
-	$this->mcurl->add_call("get","https://facebook.com",array(),array(CURLOPT_SSL_VERIFYPEER => FALSE));
+	// add_call( KEY, METHOD, URL, array of PARAMS, array of CURL_OPTS )
+	$this->mcurl->add_call("call1","get","http://google.com");
+	$this->mcurl->add_call("call2","post","http://twitter.com");
+	$this->mcurl->add_call("call3","get","http://google.com",array("q"=>"codeigniter"));
+	$this->mcurl->add_call("call4","get","https://facebook.com",array(),array(CURLOPT_SSL_VERIFYPEER => FALSE));
 	
 	// execute the calls
 	$responses = $this->mcurl->execute();
 	
-	// show some debugging
+	// retrieve a specific call by key
+	// this will return the response of the google.com request
+	$response = $this->mcurl->calls["call1"]["response"];
+	
+	// available data to use
+	$this->mcurl->calls["key"]["method"]; // the method POST/GET used in request
+	$this->mcurl->calls["key"]["url"]; // the uri of the request
+	$this->mcurl->calls["key"]["params"]; // the data parameters sent in request
+	$this->mcurl->calls["key"]["options"]; // the curl options used in the request
+	$this->mcurl->calls["key"]["curl"]; // the php curl object
+	$this->mcurl->calls["key"]["response"]; // the response of the request
+	$this->mcurl->calls["key"]["error"]; // if not null, there are some errors
+	
+	// show some debugging on all calls
 	$this->mcurl->debug();
 	
 
